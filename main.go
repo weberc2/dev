@@ -41,29 +41,19 @@ type Experience uint64
 
 type Level uint8
 
+const (
+	LevelMax Level = 100
+)
+
 type ExperienceGroup int
 
 const (
 	ExperienceGroupFast ExperienceGroup = iota
 	ExperienceGroupMediumFast
 	ExperienceGroupMediumSlow
-	ExperiemceGroupSlow
+	ExperienceGroupSlow
+	ExperienceGroupMax = ExperienceGroupSlow
 )
-
-func (group ExperienceGroup) Level(exp Experience) Level {
-	switch group {
-	case ExperienceGroupFast:
-		return Level(4 * exp * exp * exp / 5)
-	case ExperienceGroupMediumFast:
-		return Level(exp * exp * exp)
-	case ExperienceGroupMediumSlow:
-		return Level(6 * exp * exp * exp / 5 - 15 * exp * exp + 100 * exp - 140)
-	case ExperiemceGroupSlow:
-		return Level(5 * exp * exp * exp / 4)
-	default:
-		panic(fmt.Sprintf("invalid ExperienceGroup: %d", group))
-	}
-}
 
 type SpeciesID int
 
@@ -90,3 +80,18 @@ type Pokemon struct {
 	Species SpeciesID
 	Experience Experience
 }
+
+type EvolutionLevel struct {
+	Target SpeciesID
+	MinLevel Level
+}
+
+var (
+	LevelsByExperience = [ExperienceGroupMax][LevelMax]Experience{}
+	ExperienceGroups = map[SpeciesID]ExperienceGroup{}
+	EvolutionLevels = map[SpeciesID]EvolutionLevel{}
+	EvolutionStoneFire = map[SpeciesID]SpeciesID{}
+	EvolutionStoneWater = map[SpeciesID]SpeciesID{}
+	EvolutionStoneThunder = map[SpeciesID]SpeciesID{}
+	EvolutionTrade = map[SpeciesID]SpeciesID{}
+)
