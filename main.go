@@ -63,6 +63,16 @@ const (
 	ExperienceGroupMax = ExperienceGroupSlow
 )
 
+type Stat uint8
+
+const (
+	StatSpeed Stat = iota
+	StatAttack
+	StatDefense
+	StatSpecial
+	StatCount = StatSpecial
+)
+
 type SpeciesID int
 
 const (
@@ -72,6 +82,7 @@ const (
 	SpeciesCharmander
 	SpeciesCharmeleon
 	SpeciesCharizard
+	SpeciesCount
 )
 
 type Species struct {
@@ -87,6 +98,8 @@ type Pokemon struct {
 	Name string
 	Species SpeciesID
 	Experience Experience
+	EffortValues[StatCount]uint16
+	IndividualValues [StatCount]uint8
 }
 
 type EvolutionLevel struct {
@@ -102,4 +115,5 @@ var (
 	EvolutionStoneWater = map[SpeciesID]SpeciesID{}
 	EvolutionStoneThunder = map[SpeciesID]SpeciesID{}
 	EvolutionTrade = map[SpeciesID]SpeciesID{}
+	BaseStats = [SpeciesCount][StatCount]uint8{}
 )
