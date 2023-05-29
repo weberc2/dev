@@ -5,6 +5,8 @@ type Type int
 const (
 	TypeNormal Type = iota
 	TypeFire
+	TypeGrass
+	TypeWater
 )
 
 type Status int
@@ -14,6 +16,7 @@ const (
 	StatusPoison
 	StatusSleep
 	StatusFreeze
+	StatusBurn
 )
 
 type MoveCategory int
@@ -31,10 +34,15 @@ type Move struct {
 	Category MoveCategory
 	Accuracy uint8
 	Power uint8
-	ParalysisRisk uint8
-	SleepRisk uint8
-	PoisonRisk uint8
-	FreezeRisk uint8
+
+	// StatusLikelihoods lists the likelihood that the move will
+	// change the target's status *if the move hits its target*.
+	// Pokemon with an existing status condition will be immune to
+	// status changes irrespective of the probability listed here.
+	// Similarly, fire-type Pokemon cannot be burned, nor can
+	// poison types be poisoned, nor ice-types frozen irrespective
+	// of the probability listed here.
+	StatusLikelihoods[Status]uint8
 }
 
 type Experience uint64
